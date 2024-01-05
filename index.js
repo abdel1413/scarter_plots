@@ -25,3 +25,41 @@ svg
   .attr("cy", (d) => h - d[1])
   .attr("r", 5)
   .attr("class", "circle_size");
+
+svg
+  .selectAll("text")
+  .data(dataset)
+  .enter()
+  .append("text")
+  .attr("x", (d) => d[0] + 5)
+  .attr("y", (d) => h - d[1])
+  .text((d) => `${d[0]}, ${d[1]}`);
+
+//scale is a function that tells a program of to adjust
+// the data points  so that it fit the width and the
+//height of the SVG.
+//the most commonly used is d3.sackeLinear()
+
+const scale = d3.scaleLinear();
+const output = scale(50);
+
+d3.select("body").append("h2").text(output);
+
+scale.domain([50, 480]);
+scale.range([10, 500]);
+console.log(scale(50));
+console.log(scale(480));
+console.log(scale(325));
+console.log(scale(750));
+d3.scaleLinear();
+
+d3.select("body").append("h2").text(scale(50));
+d3.select("body").append("h2").text(scale(480));
+d3.select("body").append("h2").text(scale(325));
+d3.select("body").append("h2").text(scale(750));
+
+//create a domain and range
+scale.domain([250, 500]);
+scale.range([10, 150]);
+const outp = scale(50);
+d3.select("body").append("h2").text(outp);
