@@ -16,23 +16,32 @@ const h = 500;
 
 const svg = d3.select("body").append("svg").attr("width", w).attr("height", h);
 
+//create xscale
+const xScale = d3.scaleLinear();
+xScale.domain([0, d3.max(dataset, (d) => d[0])]);
+xScale.range([padding, w - padding]);
+
+//create yscale
+const yScale = d3.scaleLinear();
+yScale.domain([0, d3.max(dataset, (d) => d[1])]);
+yScale.range([h - padding, padding]);
+
 svg
   .selectAll("circle")
   .data(dataset)
   .enter()
   .append("circle")
-  .attr("cx", (d) => d[0])
-  .attr("cy", (d) => h - d[1])
-  .attr("r", 5)
-  .attr("class", "circle_size");
+  .attr("cx", (d) => xScale(d[0]))
+  .attr("cy", (d) => h - yScale(d[1]))
+  .attr("r", 5);
 
 svg
   .selectAll("text")
   .data(dataset)
   .enter()
   .append("text")
-  .attr("x", (d) => d[0] + 5)
-  .attr("y", (d) => h - d[1])
+  .attr("x", (d) => xScale(d[0] + 5))
+  .attr("y", (d) => h - yScale(d[1]))
   .text((d) => `${d[0]}, ${d[1]}`);
 
 //scale is a function that tells a program of to adjust
@@ -43,7 +52,7 @@ svg
 const scale = d3.scaleLinear();
 const output = scale(50);
 
-d3.select("body").append("h2").text(output);
+// d3.select("body").append("h2").text(output);
 
 scale.domain([50, 480]);
 scale.range([10, 500]);
@@ -53,13 +62,19 @@ console.log(scale(325));
 console.log(scale(750));
 d3.scaleLinear();
 
-d3.select("body").append("h2").text(scale(50));
-d3.select("body").append("h2").text(scale(480));
-d3.select("body").append("h2").text(scale(325));
-d3.select("body").append("h2").text(scale(750));
+// d3.select("body").append("h2").text(scale(50));
+// d3.select("body").append("h2").text(scale(480));
+// d3.select("body").append("h2").text(scale(325));
+// d3.select("body").append("h2").text(scale(750));
 
 //create a domain and range
 scale.domain([250, 500]);
 scale.range([10, 150]);
 const outp = scale(50);
-d3.select("body").append("h2").text(outp);
+// d3.select("body").append("h2").text(outp);
+
+// const xAxis = d3.axisBottom(xScale);
+// svg
+//   .append("g")
+//   .attr("transform", "translate(0," + (h - padding) + ")")
+//   .call(xAxis);
