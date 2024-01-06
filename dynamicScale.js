@@ -21,13 +21,16 @@ const padding = 30;
 //   .attr("width", w2)
 //   .attr("height", h2);
 // svg2.data(data).enter().append("h3");
+
 const xScale = d3
   .scaleLinear()
   .domain([0, d3.max(data, (d) => d[0])])
   .range([padding, w2 - padding]);
-const yScale = d3.scaleLinear();
-yScale.domain([0, d3.max(data, (d) => d[1])]);
-yScale.range([h2 - padding, padding]);
+
+const yScale = d3
+  .scaleLinear()
+  .domain([0, d3.max(data, (d) => d[1])])
+  .range([h2 - padding, padding]);
 
 const xOutput = xScale(420);
 const yOutput = yScale(411);
@@ -59,8 +62,9 @@ svg2
 
 //create x-axis and y-axis using
 //d3 methods (d3.axisLef() and d3.axisBottome())
-console.log(xScale);
+
 const xAxis = d3.axisBottom(xScale);
+
 svg2
   .append("g")
   .attr("transform", "translate( 0," + (h2 - padding) + ")")

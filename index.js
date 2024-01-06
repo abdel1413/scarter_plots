@@ -13,8 +13,7 @@ const dataset = [
 
 const w = 500;
 const h = 500;
-
-const svg = d3.select("body").append("svg").attr("width", w).attr("height", h);
+const padding = 60;
 
 //create xscale
 const xScale = d3.scaleLinear();
@@ -22,9 +21,12 @@ xScale.domain([0, d3.max(dataset, (d) => d[0])]);
 xScale.range([padding, w - padding]);
 
 //create yscale
-const yScale = d3.scaleLinear();
-yScale.domain([0, d3.max(dataset, (d) => d[1])]);
-yScale.range([h - padding, padding]);
+const yScale = d3
+  .scaleLinear()
+  .domain([0, d3.max(dataset, (d) => d[1])])
+  .range([h - padding, padding]);
+
+const svg = d3.select("body").append("svg").attr("width", w).attr("height", h);
 
 svg
   .selectAll("circle")
@@ -43,6 +45,20 @@ svg
   .attr("x", (d) => xScale(d[0] + 5))
   .attr("y", (d) => h - yScale(d[1]))
   .text((d) => `${d[0]}, ${d[1]}`);
+
+const xAxis = d3.axisBottom(xScale);
+
+svg
+  .append("g")
+  .attr("transform", "translate(0," + (h - padding) + ")")
+  .call(xAxis);
+
+const yAxis = d3.axisLeft(yScale);
+
+svg
+  .append("g")
+  .attr("transform", "translate(" + padding + " ,0)")
+  .call(yAxis);
 
 //scale is a function that tells a program of to adjust
 // the data points  so that it fit the width and the
